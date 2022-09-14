@@ -11,9 +11,24 @@ const formik=useFormik({
     name:"",
     password:""
   },
-  onSubmit:(value)=>{console.log(value)}
+  onSubmit:(value)=>{
+    console.log(value)
+  },
+  validate:(value)=>{
+    let errors={}
+      if(!value.name){
+        errors.name="Name is not valid"
+      }
+
+      if(!value.password){
+        errors.password="Password is not valid"
+      }
+
+    return errors;
+  }
 })
 
+// console.log(formik.errors)
 // console.log(formik.values)
 
 
@@ -35,7 +50,9 @@ const formik=useFormik({
             name="name"
             value={formik.values.name}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
+          {formik.errors.name && formik.touched.name && <div className="mt-1 text-red-500"> {formik.errors.name} </div>}
         </div>
         <div className="mb-6">
           <label
@@ -52,8 +69,9 @@ const formik=useFormik({
             name="password"
             value={formik.values.password}
             onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
           />
-          <p className="text-red-500 text-xs italic">Please choose a password.</p>
+           {formik.errors.password && formik.touched.password&& <div className="mt-1 text-red-500"> {formik.errors.password} </div>}
         </div>
         <div className="flex items-center justify-between">
           <button
